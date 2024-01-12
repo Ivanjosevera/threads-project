@@ -16,6 +16,7 @@
     "@radix-ui/react-slot": "^1.0.2",
     "@uploadthing/react": "^5.7.0",
     "class-variance-authority": "^0.7.0",
+    "clerk": "^0.8.3",
     "clsx": "^2.0.0",
     "lucide-react": "^0.291.0",
     "mongodb": "^6.2.0",
