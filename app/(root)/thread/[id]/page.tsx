@@ -1,11 +1,15 @@
 import ThreadCard from "@/components/cards/ThreadCard";
 import Comment from "@/components/forms/Comment";
-import { fetchThreadById } from "@/lib/actions/thread.action";
+
+import { fetchThreadById } from "@/lib/actions/thread.actions";
 import { fetchUser } from "@/lib/actions/user.actions";
+
 import { currentUser } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 
-const Page = async ({ params }: { params: { id: string } }) => {
+export const revalidate = 0;
+
+async function Page({ params }: { params: { id: string } }) {
   if (!params.id) return null;
 
   const user = await currentUser();
@@ -20,7 +24,6 @@ const Page = async ({ params }: { params: { id: string } }) => {
     <section className="relative">
       <div>
         <ThreadCard
-          key={thread._id}
           id={thread._id}
           currentUserId={user?.id || ""}
           parentId={thread.parentId}
@@ -44,7 +47,7 @@ const Page = async ({ params }: { params: { id: string } }) => {
           <ThreadCard
             key={childItem._id}
             id={childItem._id}
-            currentUserId={childItem?.id || ""}
+            currentUserId={user.id || ""}
             parentId={childItem.parentId}
             content={childItem.text}
             author={childItem.author}
@@ -57,6 +60,6 @@ const Page = async ({ params }: { params: { id: string } }) => {
       </div>
     </section>
   );
-};
+}
 
 export default Page;

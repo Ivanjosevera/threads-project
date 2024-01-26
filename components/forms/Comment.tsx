@@ -14,7 +14,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { usePathname, useRouter } from "next/navigation";
 import { updateUser } from "@/lib/actions/user.actions";
 import { CommentValidation } from "@/lib/validations/thread";
-import { addCommentToThread, createThread } from "@/lib/actions/thread.action";
+import { addCommentToThread, createThread } from "@/lib/actions/thread.actions";
 import { Input } from "../ui/input";
 import Image from "next/image";
 
