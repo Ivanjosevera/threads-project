@@ -63,14 +63,11 @@ export async function createThread({
 }: Params) {
   try {
     connectToDB();
-    console.log("ORG id", communityId);
 
     const communityIdObject = await Community.findOne(
       { id: communityId },
       { _id: 1 }
     );
-
-    console.log("COMM", communityIdObject);
 
     const createdThread = await Thread.create({
       text,

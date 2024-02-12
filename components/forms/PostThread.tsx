@@ -39,11 +39,10 @@ function PostThread({ userId }: Props) {
   });
 
   const onSubmit = async (values: z.infer<typeof ThreadValidation>) => {
-    // console.log("ORG id", organization.id);
     await createThread({
       text: values.thread,
       author: userId,
-      communityId: organization.id ? organization.id : null,
+      communityId: organization ? organization.id : null,
       path: pathname,
     });
 
