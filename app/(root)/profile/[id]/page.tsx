@@ -1,21 +1,22 @@
-import ProfileHeader from "@/components/shared/ProfileHeader";
-import { fetchUser } from "@/lib/actions/user.actions";
+import Image from "next/image";
 import { currentUser } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { profileTabs } from "@/constants";
-import Image from "next/image";
+
 import ThreadsTab from "@/components/shared/ThreadsTab";
+import ProfileHeader from "@/components/shared/ProfileHeader";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+
+import { fetchUser } from "@/lib/actions/user.actions";
 
 async function Page({ params }: { params: { id: string } }) {
   const user = await currentUser();
-
   if (!user) return null;
 
   const userInfo = await fetchUser(params.id);
-
   if (!userInfo?.onboarded) redirect("/onboarding");
+
   return (
     <section>
       <ProfileHeader
@@ -34,7 +35,7 @@ async function Page({ params }: { params: { id: string } }) {
               <TabsTrigger key={tab.label} value={tab.value} className="tab">
                 <Image
                   src={tab.icon}
-                  alt="tab.label"
+                  alt={tab.label}
                   width={24}
                   height={24}
                   className="object-contain"
@@ -43,7 +44,7 @@ async function Page({ params }: { params: { id: string } }) {
 
                 {tab.label === "Threads" && (
                   <p className="ml-1 rounded-sm bg-light-4 px-2 py-1 !text-tiny-medium text-light-2">
-                    {userInfo?.threads?.length}
+                    {userInfo.threads.length}
                   </p>
                 )}
               </TabsTrigger>
@@ -55,6 +56,7 @@ async function Page({ params }: { params: { id: string } }) {
               value={tab.value}
               className="w-full text-light-1"
             >
+              {/* @ts-ignore */}
               <ThreadsTab
                 currentUserId={user.id}
                 accountId={userInfo.id}
@@ -62,10 +64,9 @@ async function Page({ params }: { params: { id: string } }) {
               />
             </TabsContent>
           ))}
-        </Tabs>{" "}
+        </Tabs>
       </div>
     </section>
   );
 }
-
 export default Page;
